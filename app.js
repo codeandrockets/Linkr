@@ -1,5 +1,9 @@
 var app = angular.module('linkr', []);
 
+app.factory('posts', [function(){
+	//service body
+}]);
+
 app.controller('MainCtrl', [
 	'$scope',
 	function($scope){
@@ -13,8 +17,17 @@ app.controller('MainCtrl', [
 		];
 
 		$scope.addPost = function() {
-		//Scope makes posts available in the template
-		$scope.posts.push({title: 'A new title', upvotes: 0});
-		console.log(posts);
-	}
+			if(!$scope.title || $scope.title === '') {return;}	
+			$scope.posts.push({
+				title: $scope.title, 
+				link: $scope.link,
+				upvotes: 0
+			});
+			$scope.title = '';
+			$scope.link = '';
+		};
+
+		$scope.incrementUpvotes = function(post) {
+			post.upvotes += 1;
+		};
 }]);
