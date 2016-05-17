@@ -1,20 +1,32 @@
-var app = angular.module('linkr', []);
+var app = angular.module('linkr', ['ui.router']);
+
+app.config([
+	'$stateProvider',
+	'$urlRouterProvider',
+	function($stateProvider, $urlRouterProvider) {
+
+		$stateProvider
+			.state('home', {
+				url: '/home',
+				templateUrl: '/home.html',
+				controller: 'MainCtrl'
+			});
+	$urlRouterProvider.otherwise('home');
+}]);
 
 app.factory('posts', [function(){
-	//service body
+	var o = {
+		posts: []
+	};
+	return o;
 }]);
 
 app.controller('MainCtrl', [
 	'$scope',
-	function($scope){
+	'posts',
+	function($scope, posts){
 		//Scope makes posts available in the template
-		$scope.posts = [
-			{title: 'post 1', upvotes: 4},
-			{title: 'post 2', upvotes: 12},
-			{title: 'post 3', upvotes: 1},
-			{title: 'post 4', upvotes: 8},
-			{title: 'post 5', upvotes: 18}
-		];
+		$scope.posts = posts.posts;
 
 		$scope.addPost = function() {
 			if(!$scope.title || $scope.title === '') {return;}	
